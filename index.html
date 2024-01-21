@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Word Game</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <script src="tile-element.js" defer></script>
+    <script src="button-element.js" defer></script>
+
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .rack {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            justify-content: center;
+            align-items: center;
+            min-height: 60px;
+            height: 80px;
+            /* added this line */
+            width: 900px;
+            display: grid;
+            /* changed this line */
+            grid-template-columns: repeat(10, 1fr);
+            /* added this line */
+            gap: 10px;
+            /* added this line */
+        }
+
+        .tile {
+            padding: 10px;
+            background-color: #77aaff;
+            border-radius: 5px;
+            text-align: center;
+            color: white;
+            user-select: none;
+            width: 50px;
+            /* changed this line */
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+        }
+
+        .ghost {
+            background-color: #ffaa77;
+            color: black;
+        }
+/* 
+        .button-group {
+            display: flex;
+            justify-content: center;
+        } */
+
+        .button-group button-element {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <ul id="WordRack" class="rack">
+            <li><tile-element id="tile1" letter="G" number="4"></tile-element></li>
+            <li><tile-element id="tile2" letter="A" number="7"></tile-element></li>
+            <li><tile-element id="tile3" letter="M" number="2"></tile-element></li>
+            <li><tile-element id="tile4" letter="E" number="9"></tile-element></li>
+            <li><tile-element id="tile5" letter="R" number="5"></tile-element></li>
+            <li><tile-element id="tile6" letter="S" number="3"></tile-element></li>
+            <li><tile-element id="tile7" letter="M" number="8"></tile-element></li>
+            <li><tile-element id="tile8" letter="E" number="1"></tile-element></li>
+            <li><tile-element id="tile9" letter="R" number="6"></tile-element></li>
+            <li><tile-element id="tile10" letter="S" number="10"></tile-element></li>
+        </ul>
+
+        <ul id="TileRack" class="rack">
+            <!-- Start with empty rack -->
+        </ul>
+
+        <div class="button-group">
+            <button-element id="shuffleButton" label="Shuffle"></button-element>
+            <button-element id="clearButton" label="Clear"></button-element>
+            <button-element id="submitButton" label="Submit"
+                onclick="document.getElementById('tileForm').submit()"></button-element>
+        </div>
+    </div>
+
+    <form id="tileForm" style="display: flex; flex-direction: column;">
+        <input id="field1" type="text" readonly style="width: 10ch;">
+        <input id="field2" type="text" readonly style="width: 10ch;">
+        <input id="field3" type="text" readonly style="width: 10ch;">
+        <input id="field4" type="text" readonly style="width: 10ch;">
+        <input id="field5" type="text" readonly style="width: 10ch;">
+        <input id="field6" type="text" readonly style="width: 10ch;">
+        <input id="field7" type="text" readonly style="width: 10ch;">
+        <input id="field8" type="text" readonly style="width: 10ch;">
+        <input id="field9" type="text" readonly style="width: 10ch;">
+        <input id="field10" type="text" readonly style="width: 10ch;">
+    </form>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+    <script>
+        // Update the form with the current state of the racks.  This is called whenever the racks are finished being sorted.
+        function updateForm() {
+            var wordRack = document.getElementById('WordRack');
+            var tiles = wordRack.querySelectorAll('tile-element');
+            var fieldCount = 10; // Number of fields to update
+
+            for (var i = 0; i < fieldCount; i++) {
+                var field = document.getElementById('field' + (i + 1));
+                if (i < tiles.length) {
+                    field.value = tiles[i].id;
+                } else {
+                    field.value = ''; // Clear the value of fields without corresponding tiles
+                }
+            }
+        }
+
+        // Use sortablejs to make the racks sortable
+        document.addEventListener("DOMContentLoaded", function () {
+            var wordRack = document.getElementById('WordRack');
+            var tileRack = document.getElementById('TileRack');
+            new Sortable(wordRack, {
+                group: 'tiles',
+                animation: 150,
+                ghostClass: 'ghost',
+                onEnd: updateForm
+
+            });
+
+            new Sortable(tileRack, {
+                group: 'tiles',
+                animation: 150,
+                ghostClass: 'ghost',
+                onEnd: updateForm
+            });
+
+            updateForm();
+        });
+    </script>
+
+</body>
+
+</html>
