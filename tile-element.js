@@ -14,7 +14,7 @@ class TileElement extends HTMLElement {
                 :host {
                     margin: 5px;
                     padding: 10px;
-                    background-color: #77aaff;
+                    background-color: #F1C156;
                     border-radius: 5px;
                     text-align: center;
                     color: white;

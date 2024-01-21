@@ -31,7 +31,7 @@ class ButtonElement extends HTMLElement {
             <style>
                 button {
                     padding: 10px;
-                    background-color: #4CAF50;
+                    background-color: #115BD9;
                     color: white;
                     border: none;
                     cursor: pointer;
